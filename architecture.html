@@ -1,25 +1,86 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Architecture of the Semantic Infrastructure OS."><title>Architecture — Semantic Infrastructure OS</title><link rel="stylesheet" href="assets/styles.css"><script defer src="assets/site.js"></script></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Architecture of the Semantic Infrastructure OS."><title>Architecture — Semantic Infrastructure OS</title><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="assets/styles.css"><script defer src="assets/site.js"></script></head><body>
 <a class="skip-link" href="#content">Skip to content</a><header class="site-header"><div class="header-inner"><a class="brand" href="index.html">Semantic Infrastructure <span>OS</span></a><button class="icon-button nav-toggle" data-nav-toggle aria-expanded="false" aria-label="Toggle navigation">Menu</button><nav class="site-nav" data-nav aria-label="Primary"><a aria-current="page" href="architecture.html">Architecture</a><a href="concepts.html">Concepts</a><a href="walkthroughs.html">Walkthroughs</a><a href="verification.html">Verification</a><a href="status.html">Status</a><a href="research.html">Research</a></nav><button class="icon-button" data-theme-toggle aria-label="Toggle color theme">Theme</button></div></header>
-<main id="content"><div class="docs-layout"><nav class="docs-nav" aria-label="On this page"><a href="#overview">Overview</a><a href="#compiler">Planner/compiler</a><a href="#fabrics">Execution fabrics</a><a href="#realtime">Real-time</a><a href="#graphs">Three graphs</a><a href="#supervisor">Object Supervisor</a></nav><article class="prose">
-<p class="eyebrow">Architecture</p><h1>System intent is compiled, not merely interpreted.</h1><p class="lede">The target is a semantic operating environment whose upper layers describe objects, authority, relations, and temporal requirements while lower layers enforce a concrete capability/resource/scheduling topology.</p>
-<h2 id="overview">A stratified graph, not a linear stack</h2><p>The repository already treats its L0–L6 model as responsibility strata rather than a mandatory call chain. The site extends the target architecture by making deadline-sensitive execution a first-class sibling plane, while preserving the repository's key invariant that transaction and streaming are siblings.</p>
-<div class="callout"><strong>Architecture ≠ implementation.</strong> A box on this page means “part of the target model”, not “already built”. See <a href="status.html">Status</a> for evidence-backed implementation state.</div>
-<h2 id="compiler">Planner / Policy Compiler</h2><p>The planner is the architectural hinge between domain meaning and kernel mechanisms. Its input can include semantic intent, authority, temporal contracts, criticality, placement/resource constraints, and lifecycle state. Its output is an enforceable system plan: capabilities, IPC topology, scheduling configuration, resource allocation, memory reservations, and chosen execution paths.</p>
-<pre>Semantic Intent
-+ Authority
-+ Temporal Contracts
-+ Criticality
-+ Resource Constraints
-        ↓
-System Planner / Compiler
-        ↓
-Capabilities + IPC Topology + Scheduling
-+ Resource Allocation + Memory Reservations
-+ Execution Paths</pre>
-<p>This is deliberately stronger than “put an ACL and UI over a conventional process model”. The research question is how much high-level authority and timing intent can be compiled into structure, and which constraints must remain runtime checks.</p>
-<h2 id="fabrics">Sibling execution fabrics</h2><table><thead><tr><th>Plane</th><th>Owns</th><th>Does not mean</th></tr></thead><tbody><tr><td>Transaction</td><td>Finite semantic actions, result/commit/failure semantics, effectful dispatch.</td><td>Continuous telemetry.</td></tr><tr><td>Streaming</td><td>Continuous/high-rate data, fan-out, ordering, retention, sampling/backpressure policy.</td><td>Hard deadline guarantee.</td></tr><tr><td>Real-Time</td><td>Deadline-sensitive paths, temporal contracts, resource/scheduling assumptions, admission and bounded execution.</td><td>“Fast” or “online”.</td></tr></tbody></table>
-<h2 id="realtime">Planning time vs deadline-critical runtime</h2><p>Strong temporal guarantees become more plausible when expensive semantic reasoning is moved out of the critical path. Planning may resolve policy, construct topology, reserve resources, and install IPC/scheduling configuration. Runtime then follows pre-authorized/precomputed routes with bounded operations under stated assumptions.</p>
-<div class="callout"><strong>Not everything must be static.</strong> The architectural claim is narrower: operations that require strong temporal guarantees should minimize dynamic graph queries, allocation, topology construction, and policy interpretation on their critical path.</div>
-<h2 id="graphs">Three graphs instead of one universal graph</h2><table><thead><tr><th>Graph</th><th>Question</th><th>Example</th></tr></thead><tbody><tr><td>Semantic</td><td>What exists and how is it related?</td><td><code>Room → contains → Refrigerator#17</code></td></tr><tr><td>Authority</td><td>Who may do what?</td><td><code>Alice → may invoke → setTemperature</code></td></tr><tr><td>Temporal / Provenance</td><td>What occurred and how was state produced?</td><td><code>Transaction#9281 → temperature = 4</code></td></tr></tbody></table><p>Real-time contracts may attach to objects, methods, or execution plans, but they are not merely edges in the provenance graph.</p>
-<h2 id="supervisor">Object Supervisor</h2><p>The Object Supervisor is a responsibility area for object identity, class/schema metadata, lifecycle, relations, properties, method metadata, bindings/discovery, and references to policy or temporal contracts. Exact ownership boundaries remain research unless and until executable components establish them.</p>
+<main id="content"><div class="docs-layout"><nav class="docs-nav" aria-label="On this page"><a href="#overview">Overview</a><a href="#workloads">Workload planes</a><a href="#control">Control plane</a><a href="#authority">Authority compilation</a><a href="#realtime">Real-time</a><a href="#time">Three kinds of time</a><a href="#plans">System plans</a></nav><article class="prose">
+<p class="eyebrow">Architecture</p><h1>A responsibility graph, not a numbered pipeline.</h1><p class="lede">Semantic requirements describe what must hold. Sibling workload planes execute actions and streams. A separate control plane proposes, verifies and installs a machine realization that seL4 can enforce.</p>
+<h2 id="overview">The canonical shape</h2><pre>Humans / software / AI
+          |
+          v
+Interaction adapters
+          |
+          v
+Semantic object world
+      /         \
+     v           v
+Invocation     Streaming
+execution      execution
+      \         /
+       v       v
+Resource / authority runtime
+          |
+          v
+      seL4 kernel
+          |
+       Hardware
+
+Control plane:
+  semantic contracts + resource state
+    -> Candidate Planner
+    -> Plan Verification / Admission
+    -> Privileged Reconciler / Installer
+
+Cross-cutting:
+  authority | real-time/temporal | provenance/causality
+  observability | assurance | schema/versioning</pre>
+<div class="callout"><strong>Legacy L0–L6 labels are traceability aliases only.</strong> They must not be read as a mandatory L6→...→L0 call chain.</div>
+<h2 id="workloads">Two sibling workload planes</h2><table><thead><tr><th>Plane</th><th>Owns</th><th>Does not imply</th></tr></thead><tbody><tr><td>Invocation / Action</td><td>Finite semantic actions, explicit effects, retry/failure/commit boundaries where defined.</td><td>Continuous telemetry or ACID semantics by default.</td></tr><tr><td>Streaming</td><td>Continuous/high-rate observations, fan-out, ordering, retention, replay, sampling/backpressure.</td><td>Hard deadline guarantees.</td></tr></tbody></table>
+<p><strong>Transaction Server</strong> remains the historical/AN2 subsystem name. The canonical per-request abstraction is Invocation/Action unless explicit transaction semantics are declared.</p>
+<h2 id="control">Control plane: propose, verify, install</h2><p>A single “Planner / Policy Compiler” box hid too much authority. The corrected model separates three responsibilities even if an MVP initially co-locates them:</p>
+<pre>Semantic contracts + resource state
+              ↓
+       Candidate Planner
+              ↓
+   Plan Verification / Admission
+              ↓
+ Privileged Reconciler / Installer
+              ↓
+      installed machine topology</pre>
+<p>The planner may search for a realization. The verifier/admission step checks authority non-amplification and semantic/resource/temporal requirements. Only the installer owns the privilege to mutate concrete capability/resource/scheduling topology.</p>
+<div class="callout"><strong>Why the split matters:</strong> seL4 enforces the capabilities actually installed. If an unrestricted compromised planner can install arbitrary capabilities, the kernel cannot infer that those capabilities violate a higher-level semantic policy.</div>
+<h2 id="authority">Semantic authority becomes structure + residual guards</h2><pre>Alice may call Refrigerator#17.setTemperature(x)
+only when 2 ≤ x ≤ 8
+               ↓
+Authority compilation
+       ↙                 ↘
+caps/routes          ResidualGuard
+(structural)         (2 ≤ x ≤ 8)
+       \                 /
+        Candidate AuthorityPlan
+                  ↓
+             verification
+                  ↓
+              installation</pre>
+<p>Some authority can be structural. Argument predicates, purpose/context constraints and similar semantics may still require trusted runtime guards. The architecture treats those guards as first-class plan obligations instead of pretending all policy disappears into kernel capabilities.</p>
+<h2 id="realtime">Real-time is a cross-cutting contract</h2><p>Real-time is not a third sibling fabric. An invocation can be best-effort, soft-real-time or hard-real-time; a stream can also have timing constraints. The semantic contract names the requirement, while planning/admission derives scheduler/resource configuration and runtime enforcement.</p>
+<pre>TemporalContract
+deadline · period/MIT · jitter · criticality · blocking constraints
+               ↓
+candidate resource / scheduling plan
+               ↓
+admission / schedulability assumptions
+               ↓
+installed priority · budget · period · CPU · reservations
+               ↓
+bounded runtime path + measured/proved evidence</pre>
+<p>Numeric scheduler priority is therefore an implementation-plan output, not semantic object truth.</p>
+<h2 id="time">Three different kinds of time</h2><table><thead><tr><th>Kind</th><th>Question</th><th>Examples</th></tr></thead><tbody><tr><td>Stream / event time</td><td>When was an observation produced and how is late/out-of-order data handled?</td><td>timestamps, windows, retention, replay</td></tr><tr><td>Causal / logical order</td><td>What depends on what?</td><td>happened-before, derivation links</td></tr><tr><td>Execution / real-time</td><td>By when must work complete under which assumptions?</td><td>release, deadline, jitter, WCET, blocking, resource budgets</td></tr></tbody></table>
+<p>Distributed timing additionally requires a clock model: named clock domains, synchronization assumptions, uncertainty and explicit start/completion boundaries.</p>
+<h2 id="plans">SystemPlan is a manifest, not a god-object</h2><pre>SystemPlan revision
+  ├─ semantic contract revisions
+  ├─ AuthorityPlan
+  ├─ PlacementPlan
+  ├─ ResourcePlan
+  ├─ SchedulingPlan
+  ├─ RecoveryPlan
+  └─ ResidualGuardSet references</pre>
+<p>Consistency/conflict requirements belong to object/class contracts. Placement and replication choices belong to plans that demonstrate how those requirements are met. Recovery may change realization, but not semantic authority or consistency requirements silently.</p>
 </article></div></main><footer class="site-footer"><div class="footer-inner"><span>Semantic Infrastructure OS</span><a href="index.html">Back to overview</a></div></footer></body></html>
