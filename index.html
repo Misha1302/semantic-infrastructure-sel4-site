@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Semantic Infrastructure OS: semantic objects, authority, temporal planning, capability topology, and bounded execution on seL4.">
   <meta property="og:title" content="Semantic Infrastructure OS">
-  <meta property="og:description" content="Semantics above. Enforcement below.">
+  <meta property="og:description" content="Expose meaning. Enforce authority. Compile the rest away.">
   <title>Semantic Infrastructure OS — semantics above, enforcement below</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/styles.css">
   <script defer src="assets/site.js"></script>
 </head>
-<body>
+<body class="home">
 <a class="skip-link" href="#content">Skip to content</a>
 <header class="site-header">
   <div class="header-inner">
-    <a class="brand" href="index.html">Semantic Infrastructure <span>OS</span></a>
+    <a class="brand" href="index.html"><span class="brand-mark">SI/OS</span><span class="brand-name">Semantic Infrastructure OS</span></a>
     <button class="icon-button nav-toggle" data-nav-toggle aria-expanded="false" aria-label="Toggle navigation">Menu</button>
     <nav class="site-nav" data-nav aria-label="Primary">
       <a href="architecture.html">Architecture</a>
@@ -25,244 +25,388 @@
       <a href="status.html">Status</a>
       <a href="research.html">Research</a>
     </nav>
-    <button class="icon-button" data-theme-toggle aria-label="Toggle color theme">Theme</button>
+    <button class="icon-button theme-button" data-theme-toggle aria-label="Toggle color theme">Theme</button>
   </div>
 </header>
+
 <main id="content">
-  <section class="hero">
-    <div>
-      <p class="eyebrow">Research architecture · seL4 substrate</p>
-      <h1>Expose meaning, not machines.</h1>
-      <p class="lede">Describe what the system means, what is allowed, and when it must happen. Compile that description into capabilities, resources, scheduling, and bounded execution paths.</p>
+  <section class="hero hero-system">
+    <div class="hero-copy">
+      <p class="eyebrow">Research architecture · seL4 substrate · pre-code</p>
+      <h1>Expose meaning.<br><span>Enforce authority.</span><br>Compile the rest away.</h1>
+      <p class="lede">A semantic operating environment where objects, authority, streams, resources, and temporal guarantees become one explicit system — then refine into enforceable machine structure.</p>
       <div class="hero-actions">
-        <a class="button primary" href="#architecture">Read the architecture</a>
-        <a class="button" href="status.html">See what actually exists</a>
+        <a class="button primary" href="#architecture">Explore the architecture <span aria-hidden="true">→</span></a>
+        <a class="button" href="status.html">Implementation status</a>
+      </div>
+      <div class="status-rail" aria-label="Project summary">
+        <span><i class="dot semantic-dot"></i> semantic objects</span>
+        <span><i class="dot authority-dot"></i> capability-secure</span>
+        <span><i class="dot realtime-dot"></i> real-time aware</span>
+        <span><i class="dot substrate-dot"></i> seL4 substrate</span>
       </div>
     </div>
-    <aside class="hero-aside">
-      <strong>Semantics above. Enforcement below.</strong>
-      A user thinks in refrigerators, motors, rooms, services, and deadlines. The kernel sees capabilities, endpoints, address spaces, scheduling contexts, interrupts, and memory. The research problem is the planner/compiler between those worlds.
+
+    <aside class="hero-map" aria-label="Semantic Infrastructure OS overview">
+      <div class="map-caption"><span>LIVE MODEL</span><small>target architecture</small></div>
+      <div class="mini-map">
+        <div class="mini-node actor">Human · AI · Service</div>
+        <div class="mini-link"></div>
+        <div class="mini-node semantic-node">Semantic Object World</div>
+        <div class="mini-branches" aria-hidden="true"><span></span><span></span></div>
+        <div class="mini-pair">
+          <div class="mini-node invocation-node">Invocation</div>
+          <div class="mini-node streaming-node">Streaming</div>
+        </div>
+        <div class="mini-merge" aria-hidden="true"><span></span><span></span></div>
+        <div class="mini-node resource-node">Resource / Authority</div>
+        <div class="mini-link"></div>
+        <div class="mini-node substrate-node">seL4</div>
+      </div>
+      <div class="mini-control">
+        <span>CONTROL PLANE</span>
+        <strong>PLAN → VERIFY → ADMIT → INSTALL</strong>
+      </div>
+      <div class="mini-contracts">
+        <span class="authority">AUTHORITY</span>
+        <span class="realtime">REAL-TIME</span>
+        <span class="provenance">PROVENANCE</span>
+      </div>
     </aside>
   </section>
 
-  <section class="section compact" id="problem">
-    <div class="section-intro">
-      <div><span class="kicker">01 / CONCEPTUAL SHIFT</span><h2>From machine plumbing to semantic objects</h2></div>
-      <p>Files, sockets, shells, APIs, and processes remain useful implementation mechanisms. They stop being the primary conceptual interface exposed to humans, software, and AI agents.</p>
+  <section class="concept-shift" id="problem">
+    <div>
+      <span class="kicker">01 / ABSTRACTION MISMATCH</span>
+      <h2>The machine sees plumbing.<br>The user sees a world.</h2>
     </div>
-    <div class="compare">
-      <div class="panel">
-        <h3>Traditional primary model</h3>
-        <span class="code-line">process → file / socket / API → process</span>
+    <div class="shift-diagram" aria-label="Traditional machine model versus semantic model">
+      <div class="shift-side muted-side">
+        <span class="shift-label">machine-first</span>
+        <code>process → file → socket → API → process</code>
       </div>
-      <div class="compare-divider" aria-hidden="true">→</div>
-      <div class="panel">
-        <h3>Desired primary model</h3>
-        <span class="code-line">Subject → Digital Twin → Property / Method / Stream / Relation</span>
+      <div class="shift-axis"><span>refine</span><b>→</b></div>
+      <div class="shift-side semantic-side">
+        <span class="shift-label">semantic-first</span>
+        <code>Subject → Digital Twin → Property / Method / Stream / Relation</code>
       </div>
     </div>
   </section>
 
-  <section class="section" id="architecture">
+  <section class="section architecture-section" id="architecture">
     <div class="section-intro">
-      <div><span class="kicker">02 / SYSTEM SHAPE</span><h2>Semantic requirements, sibling workloads, verified installation</h2></div>
-      <p>The target is a responsibility graph, not a numbered call stack. Invocation/action and Streaming are sibling workload planes; real-time, authority and provenance cut across them.</p>
+      <div><span class="kicker">02 / SYSTEM SHAPE</span><h2>A runtime graph with a separate control plane</h2></div>
+      <p>Invocation / Action and Streaming are sibling workload planes. Authority, real-time/temporal guarantees, and provenance cross the stack. Planning is not the runtime path.</p>
     </div>
-    <figure class="architecture" data-testid="main-architecture">
-      <div class="arch-stack">
-        <div class="arch-box"><strong>Humans / Software / AI agents</strong><small>authenticated subject contexts</small></div>
-        <div class="arrow">↓</div>
-        <div class="arch-box"><strong>Interaction adapters</strong><small>browser · service · agent gateway</small></div>
-        <div class="arrow">↓</div>
-        <div class="arch-box semantic"><strong>Semantic Object World</strong><small>objects · methods · relations · authority requirements · consistency requirements · temporal contracts</small></div>
-        <div class="arrow">↙ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↘</div>
-        <div class="execution-planes" aria-label="Sibling workload planes">
-          <div class="execution-plane"><strong>Invocation / Action</strong><span>finite semantic effects</span></div>
-          <div class="execution-plane"><strong>Streaming</strong><span>continuous/high-rate observations</span></div>
+
+    <figure class="system-map" data-testid="main-architecture">
+      <div class="runtime-map">
+        <div class="map-zone-label">RUNTIME / DATA PLANE</div>
+        <div class="runtime-node actors">
+          <span class="node-kicker">SUBJECTS</span>
+          <strong>Humans · Software · AI agents</strong>
+          <small>authenticated subject contexts</small>
         </div>
-        <div class="arrow">↓</div>
-        <div class="arch-box"><strong>Resource / Authority Runtime</strong><small>allocation · concrete capability distribution · installed scheduling/resource configuration</small></div>
-        <div class="arrow">↓</div>
-        <div class="arch-box"><strong>seL4 kernel</strong><small>capability enforcement · IPC · isolation · scheduling mechanisms</small></div>
-        <div class="arrow">↓</div>
-        <div class="arch-box"><strong>Hardware</strong></div>
+        <div class="runtime-flow" aria-hidden="true"></div>
+        <div class="runtime-node adapters">
+          <span class="node-kicker">INTERACTION</span>
+          <strong>Adapters</strong>
+          <small>browser · service · agent gateway</small>
+        </div>
+        <div class="runtime-flow" aria-hidden="true"></div>
+        <div class="runtime-node semantic">
+          <span class="node-kicker">SEMANTIC WORLD</span>
+          <strong>Objects · Methods · Relations · State</strong>
+          <small>authority · consistency · temporal requirements</small>
+        </div>
+        <div class="fork-lines" aria-hidden="true"><span></span><span></span></div>
+        <div class="workload-row">
+          <div class="runtime-node invocation">
+            <span class="node-kicker">WORKLOAD A</span>
+            <strong>Invocation / Action</strong>
+            <small>finite semantic effects</small>
+          </div>
+          <div class="runtime-node streaming">
+            <span class="node-kicker">WORKLOAD B</span>
+            <strong>Streaming</strong>
+            <small>continuous observations</small>
+          </div>
+        </div>
+        <div class="merge-lines" aria-hidden="true"><span></span><span></span></div>
+        <div class="runtime-node resource">
+          <span class="node-kicker">RESOURCE / AUTHORITY RUNTIME</span>
+          <strong>Installed capability + resource structure</strong>
+          <small>allocation · caps · routes · scheduling configuration</small>
+        </div>
+        <div class="runtime-flow" aria-hidden="true"></div>
+        <div class="runtime-node substrate">
+          <span class="node-kicker">MACHINE SUBSTRATE</span>
+          <strong>seL4 kernel</strong>
+          <small>capability enforcement · IPC · isolation · scheduling mechanisms</small>
+        </div>
       </div>
-      <div class="panel" style="margin-top:1.25rem">
-        <h3>Control plane — beside the workload path, not another runtime layer</h3>
-        <p class="code-line">Semantic contracts + resource state → Candidate Planner → Plan Verification / Admission → Privileged Reconciler / Installer</p>
-        <p class="arch-caption"><strong>Cross-cutting:</strong> authority · real-time/temporal guarantees · provenance/causality · observability · assurance · schema/versioning.</p>
+
+      <aside class="control-lane">
+        <div class="map-zone-label">CONTROL PLANE</div>
+        <div class="control-stage">
+          <span>01</span><strong>Semantic contracts</strong><small>requirements + current resource state</small>
+        </div>
+        <div class="control-arrow">↓</div>
+        <div class="control-stage planner">
+          <span>02</span><strong>Candidate Planner</strong><small>proposes a realization</small>
+        </div>
+        <div class="control-arrow">↓</div>
+        <div class="control-stage verifier">
+          <span>03</span><strong>Plan Verification / Admission</strong><small>rejects amplification + infeasible plans</small>
+        </div>
+        <div class="control-arrow">↓</div>
+        <div class="control-stage installer">
+          <span>04</span><strong>Privileged Reconciler / Installer</strong><small>installs accepted revision only</small>
+        </div>
+        <div class="install-link"><span>installs</span><b>→</b></div>
+      </aside>
+
+      <div class="contract-bands" aria-label="Cross-cutting contracts">
+        <div class="contract-band authority"><span>AUTHORITY</span><small>semantic right → structural caps + residual guards</small></div>
+        <div class="contract-band realtime"><span>REAL-TIME / TEMPORAL</span><small>deadline → admission → scheduling/resource assumptions → evidence</small></div>
+        <div class="contract-band provenance"><span>PROVENANCE / CAUSALITY</span><small>source → activity → derivation → effect</small></div>
       </div>
-      <figcaption class="arch-caption">Target architecture. Legacy L0–L6 labels are traceability aliases only; arrows here express concrete dependencies, not a universal call chain. See <a href="status.html">Implementation Status</a> for evidence-backed state.</figcaption>
+
+      <figcaption>Target architecture. Legacy L0–L6 labels remain traceability aliases only. <a href="architecture.html">Open the full architecture →</a></figcaption>
     </figure>
   </section>
 
-  <section class="section" id="semantic-model">
+  <section class="section semantic-specimen-section" id="semantic-model">
     <div class="section-intro">
-      <div><span class="kicker">03 / SEMANTIC OBJECTS</span><h2>Objects carry domain meaning</h2></div>
-      <p>Instead of asking software to reconstruct intent from generic machine interfaces, the semantic layer names the entity, operation, authority, relation, and temporal contract directly.</p>
+      <div><span class="kicker">03 / SEMANTIC OBJECT</span><h2>One object carries the contract the machine lacks</h2></div>
+      <p>The semantic layer names the entity, state categories, operations, streams, authority, and timing requirements directly. The lower system realizes them; it does not invent them.</p>
     </div>
-    <div class="card-grid">
-      <article class="card"><h3>Object</h3><p><code>Refrigerator#17</code> is a stable semantic identity with properties, methods, streams, relations, and policy references.</p></article>
-      <article class="card"><h3>Authority</h3><p>Rights are expressed at the semantic level first: who may invoke which operation, under which constraints.</p></article>
-      <article class="card"><h3>Temporal contract</h3><p>Deadline, period/minimum inter-arrival time, jitter tolerance, criticality and blocking constraints are semantic requirements. Numeric scheduler priority/budget/period belong to the implementation plan.</p></article>
-    </div>
-  </section>
 
-  <section class="section" id="refrigerator">
-    <div class="section-intro">
-      <div><span class="kicker">04 / WALKTHROUGH A</span><h2>Refrigerator#17</h2></div>
-      <p>A normal semantic command may tolerate relaxed latency. Its telemetry is a separate stream, not one infinitely long transaction.</p>
-    </div>
-    <div class="compare">
-      <div class="panel">
-        <h3>Command</h3>
-        <div class="trace">
-          <div class="trace-step"><div><strong>Browser</strong><span>invokes a semantic method</span></div></div>
-          <div class="trace-step"><div><strong>Refrigerator#17.setTemperature(4)</strong><span>domain operation</span></div></div>
-          <div class="trace-step"><div><strong>Semantic authorization</strong><span>policy at object/method level</span></div></div>
-          <div class="trace-step"><div><strong>Transaction</strong><span>finite action</span></div></div>
-          <div class="trace-step"><div><strong>Authority / topology resolution</strong><span>select or install enforceable path</span></div></div>
-          <div class="trace-step"><div><strong>seL4 IPC → application/device</strong><span>low-level execution</span></div></div>
-        </div>
+    <div class="object-specimen">
+      <div class="object-head">
+        <div><span class="object-type">Digital Twin</span><h3>Refrigerator#17</h3></div>
+        <span class="object-revision">rev 42</span>
       </div>
-      <div class="compare-divider" aria-hidden="true">≠</div>
-      <div class="panel">
-        <h3>Telemetry</h3>
-        <div class="trace">
-          <div class="trace-step"><div><strong>Device telemetry</strong><span>temperature / power consumption</span></div></div>
-          <div class="trace-step"><div><strong>Streaming plane</strong><span>continuous flow</span></div></div>
-          <div class="trace-step"><div><strong>Refrigerator#17.temperature</strong><span>semantic stream projection</span></div></div>
-          <div class="trace-step"><div><strong>Browser / consumer</strong><span>observe without turning the stream into a transaction</span></div></div>
+      <div class="object-grid">
+        <div class="object-column">
+          <span class="spec-label">PROPERTIES</span>
+          <div class="spec-row"><code>temperature</code><span>observed · 4.1 °C</span></div>
+          <div class="spec-row"><code>targetTemperature</code><span>desired · 4.0 °C</span></div>
+          <div class="spec-row"><code>doorState</code><span>observed · CLOSED</span></div>
+        </div>
+        <div class="object-column">
+          <span class="spec-label">METHODS</span>
+          <div class="spec-row authority-accent"><code>setTemperature(x)</code><span>Alice · guard 2 ≤ x ≤ 8</span></div>
+          <div class="spec-row"><code>defrost()</code><span>maintenance role</span></div>
+          <div class="spec-row realtime-accent"><code>emergencyShutdown()</code><span>temporal contract</span></div>
+        </div>
+        <div class="object-column">
+          <span class="spec-label">STREAMS / RELATIONS</span>
+          <div class="spec-row streaming-accent"><code>temperatureStream</code><span>event-time telemetry</span></div>
+          <div class="spec-row provenance-accent"><code>locatedIn</code><span>Kitchen#2</span></div>
+          <div class="spec-row"><code>poweredBy</code><span>Circuit#5</span></div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section" id="authority">
+  <section class="section walkthrough-section" id="refrigerator">
     <div class="section-intro">
-      <div><span class="kicker">05 / AUTHORITY COMPILATION</span><h2>Policy does not disappear into capabilities</h2></div>
-      <p>seL4 enforces the machine capabilities actually installed. The system must separately show that those capabilities and any residual runtime guards correctly realize semantic authority.</p>
+      <div><span class="kicker">04 / WALKTHROUGH A</span><h2>One object. Two different workloads.</h2></div>
+      <p><code>setTemperature(4)</code> is a finite Invocation / Action. Temperature telemetry is a continuous stream. They share semantic identity without collapsing into one execution model.</p>
     </div>
-    <div class="panel">
-      <p class="code-line">Alice may call Refrigerator#17.setTemperature(x) only when 2 ≤ x ≤ 8</p>
-      <div class="arch-stack" style="margin-top:1.4rem" data-testid="authority-diagram">
-        <div class="arch-box semantic"><strong>Semantic Authority</strong><small>operation scope + value/context constraints</small></div><div class="arrow">↓</div>
-        <div class="arch-box"><strong>Authority Compiler / Candidate Planner</strong><small>structural caps/routes + ResidualGuard set</small></div><div class="arrow">↓</div>
-        <div class="arch-box"><strong>Plan Verifier / Admission</strong><small>reject authority amplification and unmet requirements</small></div><div class="arrow">↓</div>
-        <div class="arch-box"><strong>Privileged Reconciler / Installer</strong><small>may mutate concrete topology only from an accepted plan</small></div><div class="arrow">↓</div>
-        <div class="arch-box"><strong>seL4 enforcement + trusted residual guards</strong><small>kernel capabilities enforce machine paths; guards enforce remaining semantic predicates</small></div>
+
+    <div class="refrigerator-visual">
+      <div class="invocation-lane">
+        <div class="lane-title"><span class="lane-dot invocation-dot"></span><strong>INVOCATION / ACTION</strong><small>finite effect</small></div>
+        <div class="flow-track invocation-track">
+          <div class="flow-node"><span>01</span><strong>Alice</strong><small>authenticated</small></div>
+          <div class="flow-segment"></div>
+          <div class="flow-node semantic-flow"><span>02</span><strong>Refrigerator#17</strong><small>setTemperature(4)</small></div>
+          <div class="flow-segment"></div>
+          <div class="flow-node authority-flow"><span>03</span><strong>Authorize</strong><small>right + guard ✓</small></div>
+          <div class="flow-segment"></div>
+          <div class="flow-node"><span>04</span><strong>Installed route</strong><small>accepted plan</small></div>
+          <div class="flow-segment"></div>
+          <div class="flow-node substrate-flow"><span>05</span><strong>seL4 IPC</strong><small>controller effect</small></div>
+        </div>
+      </div>
+
+      <div class="stream-lane">
+        <div class="lane-title"><span class="lane-dot streaming-dot"></span><strong>STREAMING</strong><small>continuous observation</small></div>
+        <div class="stream-line" aria-label="Temperature telemetry sample">
+          <span class="stream-origin">sensor</span>
+          <div class="stream-points">
+            <i style="--v:60%"><b>4.3</b></i>
+            <i style="--v:43%"><b>4.2</b></i>
+            <i style="--v:28%"><b>4.1</b></i>
+            <i style="--v:18%"><b>4.0</b></i>
+            <i style="--v:24%"><b>4.1</b></i>
+            <i style="--v:16%"><b>4.0</b></i>
+          </div>
+          <span class="stream-destination">browser</span>
+        </div>
+        <div class="stream-meta"><span>event time →</span><span>Refrigerator#17.temperatureStream</span><span>retention · replay · backpressure</span></div>
       </div>
     </div>
   </section>
 
-  <section class="section" id="motor">
+  <section class="section authority-section" id="authority">
+    <div class="section-intro">
+      <div><span class="kicker">05 / AUTHORITY COMPILATION</span><h2>Policy becomes structure — but not all of it</h2></div>
+      <p>seL4 enforces installed machine capabilities. Semantic predicates that cannot become structural authority remain explicit residual guards.</p>
+    </div>
+    <div class="authority-policy">
+      <span class="policy-subject">Alice</span>
+      <span>may call</span>
+      <code>Refrigerator#17.setTemperature(x)</code>
+      <span>only when</span>
+      <strong>2 ≤ x ≤ 8</strong>
+    </div>
+    <div class="authority-pipeline" data-testid="authority-diagram">
+      <div class="authority-stage semantic-stage"><span>SEMANTIC AUTHORITY</span><strong>operation + context</strong><small>what is allowed</small></div>
+      <div class="pipeline-arrow">→</div>
+      <div class="authority-stage planner-stage"><span>COMPILE / PLAN</span><strong>caps + routes</strong><small>plus ResidualGuard set</small></div>
+      <div class="pipeline-arrow">→</div>
+      <div class="authority-stage verify-stage"><span>VERIFY</span><strong>no amplification</strong><small>requirements satisfied</small></div>
+      <div class="pipeline-arrow">→</div>
+      <div class="authority-stage install-stage"><span>INSTALL</span><strong>accepted revision</strong><small>privileged mutation</small></div>
+      <div class="pipeline-arrow">→</div>
+      <div class="authority-stage substrate-stage"><span>ENFORCE</span><strong>seL4 + guards</strong><small>machine path + predicates</small></div>
+    </div>
+  </section>
+
+  <section class="section motor-section" id="motor">
     <div class="section-intro">
       <div><span class="kicker">06 / WALKTHROUGH B</span><h2>Motor#4 makes time part of correctness</h2></div>
-      <p>Streaming means continuous data. Real-time means bounded temporal behaviour. A single emergency stop can have a strict deadline even if it is not a stream.</p>
+      <p>Real-time is not a third execution fabric. It is a temporal contract that constrains an Invocation / Action or a stream from semantic requirement to runtime evidence.</p>
     </div>
-    <div class="compare">
-      <div class="panel">
-        <span class="badge research">illustrative contract</span>
-        <h3 style="margin-top:.9rem"><code>Motor#4.emergencyStop()</code></h3>
-        <dl class="temporal-contract">
-          <dt>deadline</dt><dd>≤ 500 μs</dd>
-          <dt>max_jitter</dt><dd>50 μs</dd>
-          <dt>criticality</dt><dd>HIGH</dd>
-          <dt>clock_domain</dt><dd>monotonic node clock</dd>
-          <dt>release</dt><dd>validated request accepted</dd>
-          <dt>completion</dt><dd>actuator command emitted</dd>
-        </dl>
-        <p class="arch-caption">These values are documentation examples only. Scheduler priority, CPU assignment, budget/period, reservations and precomputation choices belong to a Scheduling/Resource Plan derived later; none is a measured guarantee here.</p>
+
+    <div class="motor-visual">
+      <div class="motor-header">
+        <div><span class="badge research">illustrative contract</span><h3><code>Motor#4.emergencyStop()</code></h3></div>
+        <div class="deadline-display"><span>DEADLINE</span><strong>≤ 500 μs</strong></div>
       </div>
-      <div class="compare-divider" aria-hidden="true">vs</div>
-      <div class="panel">
-        <h3>Different questions</h3>
-        <p><strong>Streaming:</strong> how does continuous data flow, fan out, retain, reorder, sample, or backpressure?</p>
-        <p><strong>Real-time:</strong> by when must an operation complete, under which scheduling/resource assumptions, and what work is forbidden from the critical path?</p>
+
+      <div class="time-axis">
+        <div class="axis-labels"><span>t = 0</span><span>t = 500 μs</span></div>
+        <div class="axis-bar">
+          <span class="budget-segment request" style="--w:13%"><b>request</b></span>
+          <span class="budget-segment guard" style="--w:10%"><b>guard</b></span>
+          <span class="budget-segment ipc" style="--w:18%"><b>IPC</b></span>
+          <span class="budget-segment controller" style="--w:39%"><b>controller</b></span>
+          <span class="budget-headroom"><b>headroom</b></span>
+        </div>
+        <div class="deadline-marker"><span>deadline boundary</span></div>
       </div>
+
+      <div class="temporal-facts">
+        <div><span>clock domain</span><strong>monotonic node clock</strong></div>
+        <div><span>release</span><strong>validated request accepted</strong></div>
+        <div><span>completion</span><strong>actuator command emitted</strong></div>
+        <div><span>max jitter</span><strong>50 μs</strong></div>
+      </div>
+      <p class="evidence-note"><strong>Not measured.</strong> The budget segments are explanatory, not project timing evidence. A real guarantee needs WCET/interference data, admitted resource/scheduling assumptions, hardware/driver scope, and an observed or proved completion boundary.</p>
     </div>
   </section>
 
-  <section class="section" id="planning-runtime">
+  <section class="section planning-section" id="planning-runtime">
     <div class="section-intro">
-      <div><span class="kicker">07 / CONTROL VS CRITICAL PATH</span><h2>Plan, verify, install — then execute bounded paths</h2></div>
-      <p>Strong temporal guarantees require more than “precompute something”. The candidate plan must be admitted against explicit clock, WCET/resource, interference and blocking assumptions before privileged installation.</p>
+      <div><span class="kicker">07 / CONTROL VS CRITICAL PATH</span><h2>Plan outside the deadline. Execute inside it.</h2></div>
+      <p>Expensive semantic reasoning and schedulability checks happen before installation. Deadline-critical runtime follows accepted structure and only unavoidable residual guards.</p>
     </div>
-    <div class="compare" data-testid="planning-runtime-diagram">
-      <div class="panel">
-        <span class="badge research">control time</span>
-        <div class="trace" style="margin-top:1rem">
-          <div class="trace-step"><div><strong>Semantic contracts</strong><span>authority + consistency + temporal requirements</span></div></div>
-          <div class="trace-step"><div><strong>Candidate Planner</strong><span>placement · routes · resources · proposed scheduling</span></div></div>
-          <div class="trace-step"><div><strong>Verifier / Admission</strong><span>authority non-amplification + feasibility/schedulability assumptions</span></div></div>
-          <div class="trace-step"><div><strong>Privileged Installer</strong><span>installs only an accepted plan revision</span></div></div>
+    <div class="phase-diagram" data-testid="planning-runtime-diagram">
+      <div class="phase control-phase">
+        <span class="phase-label">CONTROL TIME</span>
+        <div class="phase-flow">
+          <div><b>contracts</b><small>authority · consistency · temporal</small></div><i>→</i>
+          <div><b>Candidate Planner</b><small>routes · resources · scheduling</small></div><i>→</i>
+          <div><b>Plan Verification / Admission</b><small>authority + feasibility</small></div><i>→</i>
+          <div><b>Privileged Reconciler / Installer</b><small>accepted revision only</small></div>
         </div>
       </div>
-      <div class="compare-divider" aria-hidden="true">INSTALL →</div>
-      <div class="panel">
-        <span class="badge planned">deadline-critical runtime</span>
-        <div class="trace" style="margin-top:1rem">
-          <div class="trace-step"><div><strong>Release event</strong><span>defined start point in the contract's clock domain</span></div></div>
-          <div class="trace-step"><div><strong>Pre-authorized path + residual guards</strong><span>no unbounded planning on the critical path</span></div></div>
-          <div class="trace-step"><div><strong>Bounded IPC / execution</strong><span>under admitted resource/scheduling assumptions</span></div></div>
-          <div class="trace-step"><div><strong>Completion boundary</strong><span>defined observable endpoint for deadline evidence</span></div></div>
+      <div class="install-gate"><span>INSTALLED PLAN</span><b>↓</b></div>
+      <div class="phase runtime-phase">
+        <span class="phase-label">DEADLINE-CRITICAL RUNTIME</span>
+        <div class="phase-flow">
+          <div><b>release</b><small>defined clock boundary</small></div><i>→</i>
+          <div><b>guard</b><small>bounded residual checks</small></div><i>→</i>
+          <div><b>IPC / execute</b><small>admitted resources</small></div><i>→</i>
+          <div><b>complete</b><small>observable deadline boundary</small></div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section" id="four-concerns">
+  <section class="section axes-section" id="four-concerns">
     <div class="section-intro">
-      <div><span class="kicker">08 / DO NOT COLLAPSE</span><h2>Workloads and cross-cutting semantics are different axes</h2></div>
-      <p>Invocation and Streaming describe workload shape. Provenance/causality and Real-Time describe properties that may apply across those workloads; they are not two more sibling runtimes.</p>
+      <div><span class="kicker">08 / ORTHOGONAL AXES</span><h2>Do not collapse workload shape into system guarantees</h2></div>
+      <p>Invocation and Streaming answer “what shape is the work?”. Authority, Real-Time, and Provenance answer different questions that can apply to either workload.</p>
     </div>
-    <div class="status-grid">
-      <article class="card"><h3>Invocation / Action</h3><p>Finite semantic action: <code>turnOff()</code>, <code>deploy(version)</code>, <code>setTemperature(4)</code>.</p></article>
-      <article class="card"><h3>Streaming</h3><p>Continuous/high-rate data: telemetry, CPU metrics, cameras, events, sensor time series.</p></article>
-      <article class="card"><h3>Provenance / Causality</h3><p>Which source, activity, subject and derivation produced current state; time fields support but do not define provenance.</p></article>
-      <article class="card"><h3>Real-Time</h3><p>A cross-cutting temporal contract: by when work must complete and under which clock, resource, blocking, WCET and scheduling assumptions.</p></article>
+    <div class="axes-matrix">
+      <div class="matrix-head"></div>
+      <div class="matrix-head invocation-head">Invocation / Action</div>
+      <div class="matrix-head streaming-head">Streaming</div>
+      <div class="matrix-row-label authority">Authority</div>
+      <div class="matrix-cell"><span>who may call?</span><b>method + guard</b></div>
+      <div class="matrix-cell"><span>who may observe?</span><b>projection + stream ACL</b></div>
+      <div class="matrix-row-label realtime">Real-Time</div>
+      <div class="matrix-cell"><span>by when?</span><b>deadline + admission</b></div>
+      <div class="matrix-cell"><span>at what temporal bounds?</span><b>period + jitter + backpressure</b></div>
+      <div class="matrix-row-label provenance">Provenance</div>
+      <div class="matrix-cell"><span>why did this effect happen?</span><b>subject + plan + result</b></div>
+      <div class="matrix-cell"><span>where did this value come from?</span><b>source + derivation + event time</b></div>
     </div>
   </section>
 
-  <section class="section" id="sel4">
+  <section class="section substrate-section" id="sel4">
     <div class="section-intro">
       <div><span class="kicker">09 / WHY seL4</span><h2>A precise lower authority substrate</h2></div>
-      <p>seL4 provides capability-based kernel mechanisms, isolation, IPC, and strong machine-checked verification results for specific kernel configurations. Those proofs do not automatically verify this project's planner, object model, runtimes, drivers, gateway, or deployment.</p>
+      <p>seL4 gives the project capability-based kernel mechanisms, isolation, IPC, and strong machine-checked verification results for specific kernel configurations. It does not prove the project's higher-level semantics.</p>
     </div>
-    <div class="compare">
-      <div class="panel"><h3>Domain meaning</h3><p><code>Refrigerator</code> · <code>Motor</code> · <code>Server</code> · ownership · temperature · deploy · emergency stop</p></div>
-      <div class="compare-divider" aria-hidden="true">compile → verify → install</div>
-      <div class="panel"><h3>Kernel mechanisms</h3><p>capabilities · endpoints · threads · address spaces · memory objects · notifications · IPC · scheduling contexts</p></div>
+    <div class="refinement-visual">
+      <div class="refinement-side semantic-refinement">
+        <span>DOMAIN MEANING</span>
+        <strong>Refrigerator · Motor · ownership · deploy · emergency stop</strong>
+      </div>
+      <div class="refinement-core">
+        <span>COMPILE</span><b>→</b><span>VERIFY</span><b>→</b><span>INSTALL</span>
+      </div>
+      <div class="refinement-side substrate-refinement">
+        <span>KERNEL MECHANISMS</span>
+        <strong>capabilities · endpoints · address spaces · memory · IPC · scheduling contexts</strong>
+      </div>
     </div>
-    <div class="callout" style="margin-top:1rem"><strong>Verification boundary:</strong> Verified properties of seL4 ≠ verified Semantic Infrastructure OS.</div>
+    <div class="verification-boundary"><span>VERIFICATION BOUNDARY</span><strong>Verified properties of seL4 ≠ verified Semantic Infrastructure OS.</strong><a href="verification.html">See exact scope →</a></div>
   </section>
 
-  <section class="section" id="status">
+  <section class="section status-section" id="status">
     <div class="section-intro">
       <div><span class="kicker">10 / EVIDENCE-BACKED STATUS</span><h2>The architecture is ahead of the implementation</h2></div>
-      <p>The current repository explicitly remains pre-code. The documentation/research baseline is substantial; the seL4 execution path and semantic runtime have not yet been reproduced or implemented in this repository.</p>
+      <p>The repository remains pre-code. The research/spec baseline is substantial; the seL4 execution path and semantic runtime have not yet been reproduced or implemented in this repository.</p>
     </div>
-    <div class="status-grid">
-      <article class="card status-card done"><span class="status-label done">done</span><h3>Research/spec baseline</h3><p>Responsibility graph, semantic/authority/temporal contracts, provenance discipline, requirements traceability, roadmap, and comparison baseline.</p></article>
-      <article class="card status-card progress"><span class="status-label progress">in progress</span><h3>R2 evidence closure</h3><p>Clarify unresolved terminology, select the first differentiator, pin the future toolchain, and write the experiment protocol.</p></article>
-      <article class="card status-card research"><span class="status-label research">research</span><h3>Real-time guarantees</h3><p>Cross-cutting temporal contracts are specified; clock model, WCET/interference evidence, schedulability mapping and end-to-end guarantees remain research.</p></article>
-      <article class="card status-card planned"><span class="status-label planned">planned</span><h3>E0 / E1 execution</h3><p>Reproduce seL4/Microkit, then build the first semantic authority vertical slice with positive and negative evidence.</p></article>
+    <div class="status-timeline">
+      <div class="status-item done"><span>DONE</span><strong>Research/spec baseline</strong><small>Responsibility graph · contracts · traceability · roadmap</small></div>
+      <div class="status-item progress"><span>IN PROGRESS</span><strong>R2 evidence closure</strong><small>differentiator · toolchain · experiment protocol</small></div>
+      <div class="status-item research"><span>RESEARCH</span><strong>Real-time guarantees</strong><small>clock · WCET · interference · schedulability</small></div>
+      <div class="status-item planned"><span>PLANNED</span><strong>E0 / E1 execution</strong><small>seL4/Microkit reproduction · first vertical slice</small></div>
     </div>
     <div class="hero-actions"><a class="button primary" href="status.html">Full status & roadmap</a><a class="button" href="research.html">Open research questions</a></div>
   </section>
 
-  <section class="section" id="entry-points">
+  <section class="section entry-section" id="entry-points">
     <div class="section-intro">
       <div><span class="kicker">11 / GO DEEPER</span><h2>Read by question, not by component list</h2></div>
-      <p>Each deeper page starts from a problem and then introduces the abstraction that resolves it.</p>
+      <p>The homepage explains the system. Deeper pages become quiet technical documentation.</p>
     </div>
-    <div class="card-grid">
-      <article class="card"><h3><a href="architecture.html">Architecture</a></h3><p>Responsibility graph, plan verification/installation, authority mapping, sibling workload planes, and cross-cutting real-time semantics.</p></article>
-      <article class="card"><h3><a href="walkthroughs.html">Walkthroughs</a></h3><p>Concrete Refrigerator#17 and Motor#4 traces from semantic invocation to enforceable path.</p></article>
-      <article class="card"><h3><a href="verification.html">Verification</a></h3><p>What seL4 proves, what it does not prove, and how project-level refinement could grow.</p></article>
+    <div class="entry-links">
+      <a href="architecture.html"><span>01</span><div><strong>Architecture</strong><small>How is the system shaped?</small></div><b>↗</b></a>
+      <a href="walkthroughs.html"><span>02</span><div><strong>Walkthroughs</strong><small>How do concrete objects execute?</small></div><b>↗</b></a>
+      <a href="verification.html"><span>03</span><div><strong>Verification</strong><small>What is actually proved?</small></div><b>↗</b></a>
     </div>
   </section>
 </main>
+
 <footer class="site-footer"><div class="footer-inner"><span>Semantic Infrastructure OS · research documentation</span><span>Source status: repository main + official seL4 sources checked 2026-09-20</span></div></footer>
 </body>
 </html>
