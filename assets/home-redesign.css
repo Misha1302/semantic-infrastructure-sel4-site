@@ -137,7 +137,7 @@ body.home .hero-map {
     linear-gradient(color-mix(in srgb, var(--line) 24%, transparent) 1px, transparent 1px),
     linear-gradient(90deg, color-mix(in srgb, var(--line) 24%, transparent) 1px, transparent 1px);
   background-size: 32px 32px;
-  overflow: visible;
+  overflow: clip;
 }
 
 body.home .hero-map::after {
@@ -262,7 +262,7 @@ body.home .map-zone-label,
 body.home .spec-label,
 body.home .shift-label,
 body.home .phase-label {
-  font-size: .74rem;
+  font-size: .78rem;
   letter-spacing: .075em;
 }
 
@@ -412,7 +412,7 @@ body.home .control-stack .control-stage:last-of-type {
 }
 
 body.home .control-stage > span {
-  font-size: .72rem;
+  font-size: .75rem;
 }
 
 body.home .control-stage strong {
@@ -464,7 +464,7 @@ body.home .crosscut:first-child {
 }
 
 body.home .crosscut span {
-  font: 900 .72rem/1.2 var(--mono);
+  font: 900 .76rem/1.2 var(--mono);
   letter-spacing: .065em;
 }
 
@@ -536,7 +536,7 @@ body.home .flow-node {
 body.home .flow-node.semantic-flow { border-top-color: var(--semantic); background: transparent; }
 body.home .flow-node.authority-flow { border-top-color: var(--authority); background: transparent; }
 body.home .flow-node.substrate-flow { border-top-color: var(--substrate); background: transparent; }
-body.home .flow-node > span { font-size: .7rem; }
+body.home .flow-node > span { font-size: .72rem; }
 body.home .flow-node strong { font-size: .92rem; }
 body.home .flow-node small { font-size: .79rem; }
 
@@ -562,9 +562,9 @@ body.home .planner-stage { border-top-color: var(--control); }
 body.home .verify-stage { border-top-color: color-mix(in srgb, var(--control) 65%, var(--authority)); }
 body.home .install-stage { border-top-color: var(--authority); }
 body.home .substrate-stage { border-top-color: var(--substrate); }
-body.home .authority-stage > span { font-size: .68rem; }
+body.home .authority-stage > span { font-size: .72rem; }
 body.home .authority-stage strong { font-size: .92rem; }
-body.home .authority-stage small { font-size: .78rem; }
+body.home .authority-stage small { font-size: .8rem; }
 
 body.home .motor-section {
   padding-top: 7rem;
@@ -663,11 +663,33 @@ body.home .status-section {
 
 body.home .status-item > span,
 body.home .entry-links > a > span {
-  font-size: .7rem;
+  font-size: .72rem;
 }
 
 body.home .entry-links a {
   padding-top: 1.25rem;
+}
+
+body.home .object-type,
+body.home .object-revision,
+body.home .lane-title strong,
+body.home .stream-origin,
+body.home .stream-destination {
+  font-size: .75rem;
+}
+
+body.home .stream-meta {
+  font-size: .7rem;
+}
+
+body.home .badge {
+  font-size: .75rem;
+}
+
+body.home .deadline-display span,
+body.home .axis-labels,
+body.home .temporal-facts span {
+  font-size: .72rem;
 }
 
 @media (max-width: 1080px) {
