@@ -1,0 +1,827 @@
+/* Homepage visual system v2
+   Scope: home only. Base documentation styles stay untouched. */
+
+body.home {
+  --bg: #f7f8fa;
+  --surface: #ffffff;
+  --surface-2: #f0f3f6;
+  --surface-3: #e7ebf0;
+  --text: #202937;
+  --muted: #526073;
+  --line: #d8dee7;
+  --line-strong: #b9c3cf;
+  --strong: #101722;
+  --accent: #355d8c;
+  --accent-soft: #eaf0f7;
+  --semantic: #6255a8;
+  --semantic-soft: #f0eef9;
+  --invocation: #376d96;
+  --invocation-soft: #edf4f8;
+  --streaming: #28766f;
+  --streaming-soft: #edf6f4;
+  --authority: #94641e;
+  --authority-soft: #f8f2e8;
+  --realtime: #a64d41;
+  --realtime-soft: #f8eeec;
+  --provenance: #7f5676;
+  --provenance-soft: #f5eff4;
+  --control: #566684;
+  --control-soft: #eef1f6;
+  --substrate: #46515f;
+  --substrate-soft: #edf0f3;
+  --shadow-sm: none;
+  --shadow: none;
+  --radius: 10px;
+  --radius-lg: 14px;
+}
+
+html[data-theme="dark"] body.home {
+  --bg: #0d1218;
+  --surface: #121922;
+  --surface-2: #18212b;
+  --surface-3: #202b37;
+  --text: #e8edf3;
+  --muted: #aeb9c8;
+  --line: #2b3745;
+  --line-strong: #445365;
+  --strong: #f7f9fb;
+  --accent: #86acd7;
+  --accent-soft: #18283a;
+  --semantic: #b4a8e6;
+  --semantic-soft: #28243a;
+  --invocation: #83b1d2;
+  --invocation-soft: #1b2b36;
+  --streaming: #7bc2b9;
+  --streaming-soft: #1a302f;
+  --authority: #d5a35d;
+  --authority-soft: #33291e;
+  --realtime: #df8a7f;
+  --realtime-soft: #352322;
+  --provenance: #c596ba;
+  --provenance-soft: #30252e;
+  --control: #a6b2c8;
+  --control-soft: #202938;
+  --substrate: #b9c3cf;
+  --substrate-soft: #202832;
+}
+
+body.home::before {
+  height: 1px;
+  background: linear-gradient(90deg, var(--semantic), color-mix(in srgb, var(--semantic) 18%, transparent) 72%, transparent);
+}
+
+body.home .site-header {
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+body.home .brand-mark {
+  border-radius: 4px;
+  background: transparent;
+}
+
+body.home .site-nav a,
+body.home .icon-button {
+  border-radius: 5px;
+}
+
+body.home .icon-button {
+  background: transparent;
+  box-shadow: none;
+}
+
+body.home .hero-system {
+  grid-template-columns: minmax(0, 1.2fr) minmax(390px, .8fr);
+  gap: clamp(3.5rem, 7vw, 7rem);
+  min-height: min(760px, calc(100vh - 62px));
+}
+
+body.home .hero-copy {
+  position: relative;
+  z-index: 2;
+}
+
+body.home .hero h1 {
+  max-width: 11.7ch;
+  font-size: clamp(3.9rem, 6.2vw, 5.45rem);
+  letter-spacing: -.052em;
+}
+
+body.home .lede {
+  max-width: 55ch;
+  color: var(--muted);
+}
+
+body.home .button {
+  border-radius: 6px;
+  box-shadow: none;
+}
+
+body.home .button:not(.primary) {
+  background: transparent;
+}
+
+body.home .status-rail {
+  font-size: .76rem;
+  gap: .6rem 1.25rem;
+}
+
+body.home .hero-map {
+  min-height: 470px;
+  border: 0;
+  border-left: 1px solid var(--line);
+  border-radius: 0;
+  box-shadow: none;
+  padding: 1.3rem 0 1.3rem 2.2rem;
+  background:
+    linear-gradient(color-mix(in srgb, var(--line) 24%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--line) 24%, transparent) 1px, transparent 1px);
+  background-size: 32px 32px;
+  overflow: clip;
+}
+
+body.home .hero-map::after {
+  inset: 12% -8% auto 18%;
+  height: 72%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--semantic) 8%, transparent), transparent 68%);
+}
+
+body.home .map-caption {
+  margin-bottom: 1.6rem;
+}
+
+body.home .map-caption span,
+body.home .map-caption small {
+  font-size: .75rem;
+}
+
+body.home .mini-map {
+  width: min(94%, 440px);
+}
+
+body.home .mini-node {
+  border: 0;
+  border-left: 2px solid var(--line-strong);
+  border-radius: 0;
+  background: color-mix(in srgb, var(--surface) 52%, transparent);
+  text-align: left;
+  padding: .58rem .8rem;
+  font-size: .84rem;
+}
+
+body.home .mini-node.actor,
+body.home .mini-node.substrate-node {
+  width: 82%;
+}
+
+body.home .mini-node.semantic-node {
+  border-left-color: var(--semantic);
+  background: color-mix(in srgb, var(--semantic-soft) 62%, transparent);
+}
+
+body.home .mini-node.invocation-node {
+  border-left-color: var(--invocation);
+  background: color-mix(in srgb, var(--invocation-soft) 54%, transparent);
+}
+
+body.home .mini-node.streaming-node {
+  border-left-color: var(--streaming);
+  background: color-mix(in srgb, var(--streaming-soft) 54%, transparent);
+}
+
+body.home .mini-node.resource-node {
+  border-left-color: var(--authority);
+  background: color-mix(in srgb, var(--authority-soft) 54%, transparent);
+}
+
+body.home .mini-node.substrate-node {
+  border-left-color: var(--substrate);
+  background: color-mix(in srgb, var(--substrate-soft) 54%, transparent);
+}
+
+body.home .mini-link,
+body.home .mini-branches::before,
+body.home .mini-merge::before {
+  background: color-mix(in srgb, var(--line-strong) 72%, transparent);
+}
+
+body.home .mini-branches span,
+body.home .mini-merge span {
+  border-color: color-mix(in srgb, var(--line-strong) 72%, transparent);
+}
+
+body.home .mini-control {
+  color: var(--control);
+  border-top-color: var(--line-strong);
+  font-size: .73rem;
+}
+
+body.home .mini-control strong {
+  font-size: .73rem;
+  font-weight: 720;
+}
+
+body.home .mini-contracts {
+  gap: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+body.home .mini-contracts span {
+  border-radius: 0;
+  background: transparent !important;
+  padding: .5rem .4rem;
+  font-size: .68rem;
+  border-right: 1px solid var(--line);
+}
+
+body.home .mini-contracts span:last-child {
+  border-right: 0;
+}
+
+body.home .section {
+  padding: 6.6rem 0;
+  border-top: 0;
+}
+
+body.home .section-intro {
+  grid-template-columns: minmax(0, .93fr) minmax(320px, 1.07fr);
+  gap: clamp(2.5rem, 7vw, 7rem);
+  margin-bottom: 3rem;
+}
+
+body.home .section-intro p {
+  font-size: 1.06rem;
+  line-height: 1.72;
+}
+
+body.home .kicker,
+body.home .eyebrow,
+body.home .node-kicker,
+body.home .map-zone-label,
+body.home .spec-label,
+body.home .shift-label,
+body.home .phase-label {
+  font-size: .78rem;
+  letter-spacing: .075em;
+}
+
+body.home .concept-shift {
+  padding: 5.6rem 0;
+}
+
+body.home .shift-side {
+  border-radius: 4px;
+}
+
+body.home .architecture-section {
+  padding-top: 7rem;
+  background: color-mix(in srgb, var(--surface) 64%, var(--bg));
+  box-shadow: 0 0 0 100vmax color-mix(in srgb, var(--surface) 64%, var(--bg));
+  clip-path: inset(0 -100vmax);
+}
+
+body.home .system-map-v2 {
+  display: block;
+  margin: 0;
+}
+
+body.home .system-frame {
+  display: grid;
+  grid-template-columns: minmax(0, 1.72fr) minmax(280px, .72fr);
+  grid-template-areas:
+    "runtime control"
+    "contracts contracts";
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+  background: transparent;
+}
+
+body.home .system-plane {
+  min-width: 0;
+  padding: 1.6rem 1.7rem 1.8rem;
+}
+
+body.home .runtime-plane {
+  grid-area: runtime;
+  border-right: 1px solid var(--line);
+}
+
+body.home .control-plane {
+  grid-area: control;
+  background: color-mix(in srgb, var(--control-soft) 38%, transparent);
+}
+
+body.home .system-plane .map-zone-label {
+  margin-bottom: 1.35rem;
+  color: var(--muted);
+}
+
+body.home .runtime-stack {
+  width: min(100%, 770px);
+  margin: 0 auto;
+  display: grid;
+  justify-items: stretch;
+}
+
+body.home .runtime-stack .runtime-node {
+  width: 100%;
+  border: 0;
+  border-top: 1px solid var(--line-strong);
+  border-radius: 0;
+  background: transparent;
+  padding: .9rem .95rem;
+  text-align: left;
+}
+
+body.home .runtime-stack .runtime-node:last-child {
+  border-bottom: 1px solid var(--line-strong);
+}
+
+body.home .runtime-stack .runtime-node.semantic {
+  border-top-color: color-mix(in srgb, var(--semantic) 60%, var(--line));
+  border-left: 3px solid var(--semantic);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--semantic-soft) 68%, transparent), transparent 72%);
+}
+
+body.home .runtime-stack .runtime-node.invocation {
+  border-left: 3px solid var(--invocation);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--invocation-soft) 52%, transparent), transparent 82%);
+}
+
+body.home .runtime-stack .runtime-node.streaming {
+  border-left: 3px solid var(--streaming);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--streaming-soft) 52%, transparent), transparent 82%);
+}
+
+body.home .runtime-stack .runtime-node.resource {
+  border-left: 3px solid var(--authority);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--authority-soft) 48%, transparent), transparent 78%);
+}
+
+body.home .runtime-stack .runtime-node.substrate {
+  border-left: 3px solid var(--substrate);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--substrate-soft) 58%, transparent), transparent 78%);
+}
+
+body.home .runtime-stack .runtime-node strong {
+  font-size: 1rem;
+}
+
+body.home .runtime-stack .runtime-node small {
+  font-size: .82rem;
+}
+
+body.home .runtime-stack .node-kicker {
+  margin-bottom: .14rem;
+}
+
+body.home .runtime-stack .runtime-flow {
+  height: 22px;
+  background: var(--line-strong);
+  justify-self: center;
+}
+
+body.home .runtime-stack .workload-row {
+  width: 100%;
+  gap: 1rem;
+}
+
+body.home .runtime-stack .fork-lines,
+body.home .runtime-stack .merge-lines {
+  width: 54%;
+  height: 28px;
+}
+
+body.home .control-stack {
+  display: grid;
+}
+
+body.home .control-stack .control-stage {
+  border: 0;
+  border-top: 1px solid var(--line-strong);
+  border-radius: 0;
+  background: transparent;
+  padding: .95rem .2rem;
+  grid-template-columns: 2.2rem 1fr;
+  gap: .12rem .7rem;
+}
+
+body.home .control-stack .control-stage:last-of-type {
+  border-bottom: 1px solid var(--line-strong);
+}
+
+body.home .control-stage > span {
+  font-size: .75rem;
+}
+
+body.home .control-stage strong {
+  font-size: .95rem;
+}
+
+body.home .control-stage small {
+  font-size: .79rem;
+  line-height: 1.45;
+}
+
+body.home .control-stack .control-arrow {
+  width: 1px;
+  height: 20px;
+  margin: 0 0 0 1.05rem;
+  padding: 0;
+  overflow: hidden;
+  background: var(--line-strong);
+  color: transparent;
+}
+
+body.home .control-plane .install-link {
+  justify-content: flex-start;
+  margin-top: 1.2rem;
+  padding-top: .9rem;
+  border-top: 1px dashed var(--line-strong);
+  color: var(--control);
+  font-size: .75rem;
+}
+
+body.home .crosscut-layer {
+  grid-area: contracts;
+  display: grid;
+  border-top: 1px solid var(--line-strong);
+}
+
+body.home .crosscut {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(118px, 150px) 1fr;
+  gap: 1.2rem;
+  align-items: baseline;
+  padding: .62rem 1.7rem;
+  border-top: 1px solid var(--line);
+}
+
+body.home .crosscut:first-child {
+  border-top: 0;
+}
+
+body.home .crosscut span {
+  font: 900 .76rem/1.2 var(--mono);
+  letter-spacing: .065em;
+}
+
+body.home .crosscut small {
+  color: var(--muted);
+  font-size: .8rem;
+}
+
+body.home .crosscut.authority { box-shadow: inset 3px 0 0 var(--authority); }
+body.home .crosscut.realtime { box-shadow: inset 3px 0 0 var(--realtime); }
+body.home .crosscut.provenance { box-shadow: inset 3px 0 0 var(--provenance); }
+body.home .crosscut.authority span { color: var(--authority); }
+body.home .crosscut.realtime span { color: var(--realtime); }
+body.home .crosscut.provenance span { color: var(--provenance); }
+
+body.home .system-map-v2 figcaption {
+  color: var(--muted);
+  font-size: .91rem;
+  padding: .85rem 0 0;
+}
+
+body.home .object-specimen,
+body.home .refrigerator-visual,
+body.home .motor-visual,
+body.home .phase-diagram {
+  border-left: 0;
+  border-right: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+body.home .object-specimen {
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+  background: transparent;
+}
+
+body.home .object-head {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--semantic-soft) 62%, transparent), transparent 52%);
+}
+
+body.home .object-column {
+  padding-top: 1.35rem;
+  padding-bottom: 1.35rem;
+}
+
+body.home .spec-row span {
+  font-size: .89rem;
+}
+
+body.home .refrigerator-visual {
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+  background: transparent;
+}
+
+body.home .stream-lane {
+  background: color-mix(in srgb, var(--streaming-soft) 24%, transparent);
+}
+
+body.home .flow-node {
+  border: 0;
+  border-top: 2px solid var(--line-strong);
+  border-radius: 0;
+  background: transparent;
+  padding: .9rem .7rem;
+}
+
+body.home .flow-node.semantic-flow { border-top-color: var(--semantic); background: transparent; }
+body.home .flow-node.authority-flow { border-top-color: var(--authority); background: transparent; }
+body.home .flow-node.substrate-flow { border-top-color: var(--substrate); background: transparent; }
+body.home .flow-node > span { font-size: .72rem; }
+body.home .flow-node strong { font-size: .92rem; }
+body.home .flow-node small { font-size: .79rem; }
+
+body.home .authority-policy {
+  border-left-width: 2px;
+  background: color-mix(in srgb, var(--authority-soft) 62%, transparent);
+}
+
+body.home .authority-pipeline {
+  gap: .35rem;
+}
+
+body.home .authority-stage {
+  border: 0;
+  border-top: 2px solid var(--line-strong);
+  border-radius: 0;
+  background: transparent !important;
+  padding: .95rem .55rem;
+}
+
+body.home .semantic-stage { border-top-color: var(--semantic); }
+body.home .planner-stage { border-top-color: var(--control); }
+body.home .verify-stage { border-top-color: color-mix(in srgb, var(--control) 65%, var(--authority)); }
+body.home .install-stage { border-top-color: var(--authority); }
+body.home .substrate-stage { border-top-color: var(--substrate); }
+body.home .authority-stage > span { font-size: .72rem; }
+body.home .authority-stage strong { font-size: .92rem; }
+body.home .authority-stage small { font-size: .8rem; }
+
+body.home .motor-section {
+  padding-top: 7rem;
+}
+
+body.home .motor-visual {
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+  background: transparent;
+}
+
+body.home .badge {
+  border-radius: 3px;
+}
+
+body.home .temporal-facts div {
+  padding: .9rem .75rem;
+}
+
+body.home .temporal-facts span {
+  font-size: .7rem;
+}
+
+body.home .planning-section {
+  background: color-mix(in srgb, var(--control-soft) 24%, var(--bg));
+  box-shadow: 0 0 0 100vmax color-mix(in srgb, var(--control-soft) 24%, var(--bg));
+  clip-path: inset(0 -100vmax);
+}
+
+body.home .phase-diagram {
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+  background: transparent;
+}
+
+body.home .phase {
+  background: transparent;
+}
+
+body.home .phase-flow div {
+  border: 0;
+  border-top: 2px solid var(--line-strong);
+  border-radius: 0;
+  background: transparent;
+}
+
+body.home .control-phase .phase-flow div { border-top-color: var(--control); }
+body.home .runtime-phase .phase-flow div { border-top-color: var(--realtime); }
+
+body.home .phase-label {
+  font-size: .72rem;
+}
+
+body.home .install-gate {
+  background: transparent;
+  font-size: .7rem;
+}
+
+body.home .axes-matrix {
+  border-radius: 0;
+}
+
+body.home .matrix-head,
+body.home .matrix-row-label {
+  font-size: .76rem;
+}
+
+body.home .matrix-cell span { font-size: .84rem; }
+body.home .matrix-cell b { font-size: .91rem; }
+
+body.home .refinement-side {
+  border-radius: 4px;
+  background: transparent;
+}
+
+body.home .semantic-refinement {
+  box-shadow: inset 3px 0 0 var(--semantic);
+  border-color: var(--line);
+}
+
+body.home .substrate-refinement {
+  box-shadow: inset 3px 0 0 var(--substrate);
+  border-color: var(--line);
+}
+
+body.home .verification-boundary {
+  border-radius: 4px;
+  background: transparent;
+}
+
+body.home .status-section {
+  background: color-mix(in srgb, var(--surface-2) 58%, var(--bg));
+  box-shadow: 0 0 0 100vmax color-mix(in srgb, var(--surface-2) 58%, var(--bg));
+  clip-path: inset(0 -100vmax);
+}
+
+body.home .status-item > span,
+body.home .entry-links > a > span {
+  font-size: .72rem;
+}
+
+body.home .entry-links a {
+  padding-top: 1.25rem;
+}
+
+body.home .object-type,
+body.home .object-revision,
+body.home .lane-title strong,
+body.home .stream-origin,
+body.home .stream-destination {
+  font-size: .75rem;
+}
+
+body.home .stream-meta {
+  font-size: .7rem;
+}
+
+body.home .badge {
+  font-size: .75rem;
+}
+
+body.home .deadline-display span,
+body.home .axis-labels,
+body.home .temporal-facts span {
+  font-size: .72rem;
+}
+
+@media (max-width: 1080px) {
+  body.home .hero-system {
+    grid-template-columns: minmax(0, 1.08fr) minmax(350px, .92fr);
+    gap: 3rem;
+  }
+  body.home .system-frame {
+    grid-template-columns: minmax(0, 1.55fr) minmax(260px, .75fr);
+  }
+}
+
+@media (max-width: 920px) {
+  body.home .hero-system {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  body.home .hero-map {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    padding: 2rem 0 0;
+    min-height: auto;
+  }
+  body.home .section-intro {
+    grid-template-columns: 1fr;
+    gap: .8rem;
+  }
+  body.home .system-frame {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "runtime"
+      "control"
+      "contracts";
+  }
+  body.home .runtime-plane {
+    border-right: 0;
+    border-bottom: 1px solid var(--line-strong);
+  }
+  body.home .control-plane {
+    background: transparent;
+  }
+}
+
+@media (max-width: 720px) {
+  body.home .hero h1 {
+    font-size: clamp(2.95rem, 13vw, 4rem);
+    max-width: 10.8ch;
+    overflow-wrap: normal;
+  }
+  body.home .hero {
+    padding-top: 3.5rem;
+    padding-bottom: 3.4rem;
+  }
+  body.home .hero-map { padding-top: 1.4rem; }
+  body.home .mini-contracts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  body.home .mini-contracts span {
+    font-size: .6rem;
+    padding: .45rem .2rem;
+  }
+  body.home .section { padding: 4.8rem 0; }
+  body.home .system-plane { padding: 1.2rem 0; }
+  body.home .runtime-stack .workload-row {
+    grid-template-columns: 1fr;
+    gap: .5rem;
+    margin: .5rem 0;
+  }
+  body.home .runtime-stack .fork-lines,
+  body.home .runtime-stack .merge-lines { display: none; }
+  body.home .crosscut {
+    grid-template-columns: 1fr;
+    gap: .22rem;
+    padding: .7rem .75rem;
+  }
+  body.home .control-stack .control-stage {
+    grid-template-columns: 1.8rem 1fr;
+  }
+  body.home .flow-node {
+    border-top: 0;
+    border-left: 2px solid var(--line-strong);
+  }
+  body.home .flow-node.semantic-flow { border-left-color: var(--semantic); }
+  body.home .flow-node.authority-flow { border-left-color: var(--authority); }
+  body.home .flow-node.substrate-flow { border-left-color: var(--substrate); }
+  body.home .authority-stage {
+    border-top: 0;
+    border-left: 2px solid var(--line-strong);
+    padding-left: .8rem;
+  }
+  body.home .semantic-stage { border-left-color: var(--semantic); }
+  body.home .planner-stage { border-left-color: var(--control); }
+  body.home .verify-stage { border-left-color: color-mix(in srgb, var(--control) 65%, var(--authority)); }
+  body.home .install-stage { border-left-color: var(--authority); }
+  body.home .substrate-stage { border-left-color: var(--substrate); }
+  body.home .axis-bar { height: 42px; }
+  body.home .budget-segment,
+  body.home .budget-headroom { position: relative; }
+  body.home .budget-segment b,
+  body.home .budget-headroom b {
+    writing-mode: horizontal-tb;
+    transform: none;
+    font-size: .5rem;
+    line-height: 1;
+    letter-spacing: -.02em;
+  }
+  body.home .temporal-facts { grid-template-columns: 1fr; }
+  body.home .axes-matrix {
+    grid-template-columns: 1fr 1fr;
+    border-left: 0;
+    border-right: 0;
+  }
+  body.home .axes-matrix > * { padding: .78rem .68rem; }
+  body.home .axes-matrix > .matrix-head:first-child { display: none; }
+  body.home .matrix-head { font-size: .7rem; }
+  body.home .matrix-row-label {
+    grid-column: 1 / -1;
+    border-right: 0 !important;
+    border-top: 1px solid var(--line-strong);
+    font-size: .7rem;
+  }
+  body.home .matrix-cell { min-height: 84px; }
+  body.home .matrix-cell span { font-size: .76rem; }
+  body.home .matrix-cell b { font-size: .82rem; }
+  body.home .object-column + .object-column { border-left: 0; }
+}
+
+@media print {
+  body.home .architecture-section,
+  body.home .planning-section,
+  body.home .status-section {
+    box-shadow: none;
+    background: white;
+  }
+}
