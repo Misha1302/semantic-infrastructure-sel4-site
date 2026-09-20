@@ -961,3 +961,12 @@ body.home .entry-links > a > span {
     font-size: .75rem;
   }
 }
+
+
+/* Final mobile legibility floor after live omission review. */
+@media (max-width: 720px) {
+  body.home .mini-contracts span,
+  body.home .deadline-marker span {
+    font-size: .72rem;
+  }
+}
