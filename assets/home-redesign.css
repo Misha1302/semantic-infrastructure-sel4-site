@@ -825,3 +825,139 @@ body.home .temporal-facts span {
     background: white;
   }
 }
+
+
+/* Visual repair v3 — theme continuity, legibility and technical-label floor.
+   Keep these overrides homepage-scoped so documentation pages remain stable. */
+
+body.home {
+  --authority: #875713;
+  --concept-bg: color-mix(in srgb, var(--semantic-soft) 28%, var(--bg));
+  --concept-panel: color-mix(in srgb, var(--surface) 70%, var(--concept-bg));
+  --concept-line: color-mix(in srgb, var(--semantic) 20%, var(--line));
+}
+
+body.home .concept-shift {
+  position: relative;
+  padding: 4.8rem 0;
+  gap: clamp(2.5rem, 5vw, 4.5rem);
+  background: var(--concept-bg);
+  box-shadow: 0 0 0 100vmax var(--concept-bg);
+  clip-path: inset(0 -100vmax);
+  color: var(--text);
+  border-top: 1px solid var(--concept-line);
+  border-bottom: 1px solid var(--concept-line);
+}
+
+body.home .concept-shift h2 {
+  color: var(--strong);
+}
+
+body.home .concept-shift .kicker {
+  color: var(--semantic);
+}
+
+body.home .shift-side {
+  border-color: var(--line);
+  background: var(--concept-panel);
+  color: var(--text);
+  border-radius: 7px;
+}
+
+body.home .shift-side code {
+  color: var(--text);
+  font-size: .98rem;
+  line-height: 1.6;
+}
+
+body.home .shift-label {
+  opacity: 1;
+  color: var(--muted);
+}
+
+body.home .muted-side {
+  opacity: 1;
+}
+
+body.home .semantic-side {
+  border-color: color-mix(in srgb, var(--semantic) 48%, var(--line));
+  background: color-mix(in srgb, var(--semantic-soft) 64%, var(--surface));
+}
+
+body.home .semantic-side .shift-label {
+  color: var(--semantic);
+}
+
+body.home .shift-axis {
+  color: var(--muted);
+  font-size: .76rem;
+}
+
+body.home .shift-axis b {
+  color: var(--semantic);
+  font-size: 1.15rem;
+}
+
+/* The previous design still had many 8–10px annotations.
+   Preserve density, but keep meaningful labels above micro-text territory. */
+body.home .mini-contracts span {
+  font-size: .7rem;
+}
+
+body.home .stream-points b {
+  font-size: .7rem;
+}
+
+body.home .stream-meta,
+body.home .axis-labels {
+  font-size: .72rem;
+}
+
+body.home .budget-segment,
+body.home .budget-headroom,
+body.home .deadline-marker span {
+  font-size: .7rem;
+}
+
+body.home .verification-boundary span,
+body.home .refinement-side span,
+body.home .refinement-core,
+body.home .install-gate {
+  font-size: .72rem;
+}
+
+body.home .phase-label,
+body.home .status-item > span,
+body.home .entry-links > a > span {
+  font-size: .75rem;
+}
+
+@media (max-width: 720px) {
+  body.home .concept-shift {
+    padding: 3.7rem 0;
+    gap: 2rem;
+  }
+
+  body.home .shift-diagram {
+    gap: .7rem;
+  }
+
+  body.home .mini-contracts span {
+    font-size: .68rem;
+  }
+
+  body.home .budget-segment b,
+  body.home .budget-headroom b {
+    font-size: .7rem;
+    line-height: 1.05;
+  }
+
+  body.home .deadline-marker span {
+    font-size: .68rem;
+  }
+
+  body.home .matrix-head,
+  body.home .matrix-row-label {
+    font-size: .75rem;
+  }
+}
